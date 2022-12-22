@@ -2,6 +2,7 @@
 
 Install:
 
+* `npx`
 * `pipenv`
 * `pip install "uvicorn[standard]"`
 
