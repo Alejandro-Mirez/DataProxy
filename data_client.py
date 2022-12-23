@@ -7,7 +7,7 @@ from coffee_freaks_api_client.api.all_ import post_api_v1_account_login, post_ap
     get_api_v1_account_logout, get_api_v1_coffee, post_api_v1_roaster, put_api_v1_roaster_roasterid, \
     delete_api_v1_roaster_roasterid, post_api_v1_roaster_roasterid_coffee, put_api_v1_roaster_roasterid_coffee_coffeeid, \
     delete_api_v1_roaster_roasterid_coffee_coffeeid, get_api_v1_roaster_roasterid, \
-    get_api_v1_roaster_roasterid_coffee_coffeeid
+    get_api_v1_roaster_roasterid_coffee_coffeeid, get_api_v1_roaster
 from math import ceil
 
 from coffee_freaks_api_client.models import LoginRequest, BadRequest, InvalidInput, ServerError, TokenResult, \
@@ -87,11 +87,37 @@ class DataClient:
             return result
 
         first_result = __get_page(0)
-        results.append(first_result.results)
+        results = first_result.results
         pages = ceil(first_result.count / self.__DEFAULT_LIMIT)
         for page in range(1, pages):
             page_result = __get_page(page)
-            results.append(page_result.results)
+            results += page_result.results
+
+        return results
+
+
+    def get_all_roasters(self) -> list[RoasterResult]:
+        self.logger.info("Fetching all roasters")
+        results = []
+
+        def __get_page(page: int, limit: int = self.__DEFAULT_LIMIT):
+            self.logger.debug(f"Fetching page {page}")
+            result = self.__safe_call(
+                lambda *args: get_api_v1_roaster.sync(
+                    limit=limit,
+                    offset=limit * page,
+                    client=self.__api
+                )
+            )
+            self.logger.debug(result)
+            return result
+
+        first_result = __get_page(0)
+        results = first_result.results
+        pages = ceil(first_result.count / self.__DEFAULT_LIMIT)
+        for page in range(1, pages):
+            page_result = __get_page(page)
+            results += page_result.results
 
         return results
 
