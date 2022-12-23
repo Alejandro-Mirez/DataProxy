@@ -108,15 +108,21 @@ class DataClient:
         else:
             raise result
 
+    def get_roaster(self, id: str) -> RoasterResult:
+        self.logger.info("Get roaster")
+        result = self.__safe_call(lambda *args: get_api_v1_roaster_roasterid.sync(roaster_id=id, client=self.__api))
+        self.logger.debug(result)
+        return result
+
     def add_roaster(self, roster: RoasterRequestEntity) -> RoasterResult:
         self.logger.info("Add roaster")
 
-        result = self.__safe_call(
-            lambda *args: self.__call_and_fetch(
+        result = self.__call_and_fetch(
+            lambda *args: self.__safe_call(
                 lambda *args: post_api_v1_roaster.sync_detailed(json_body=roster, x_coffee_auth=self.__auth_token,
-                                                                client=self.__api),
-                lambda id: get_api_v1_roaster_roasterid.sync(roaster_id=id, client=self.__api)
-            )
+                                                                client=self.__api)
+            ),
+            lambda id: self.get_roaster(id)
         )
         self.logger.debug(result)
         return result
@@ -124,16 +130,16 @@ class DataClient:
     def update_roaster(self, roaster_id: str, roster: RoasterRequestEntity) -> RoasterResult:
         self.logger.info(f"Update roaster {roaster_id}")
 
-        result = self.__safe_call(
-            lambda *args: self.__call_and_fetch(
+        result = self.__call_and_fetch(
+            lambda *args: self.__safe_call(
                 lambda *args: put_api_v1_roaster_roasterid.sync_detailed(
                     json_body=roster,
                     roaster_id=roaster_id,
                     x_coffee_auth=self.__auth_token,
                     client=self.__api
-                ),
-                lambda id: get_api_v1_roaster_roasterid.sync(roaster_id=id, client=self.__api)
-            )
+                )
+            ),
+            lambda id: self.get_roaster(id)
         )
         self.logger.debug(result)
         return result
@@ -150,37 +156,43 @@ class DataClient:
         self.logger.debug(result)
         return result
 
+    def get_coffee(self, roaster_id: str, coffee_id: str) -> CoffeeResult:
+        self.logger.info(f"Get coffee {coffee_id} on roaster {roaster_id}")
+        result = self.__safe_call(
+            lambda *args: get_api_v1_roaster_roasterid_coffee_coffeeid.sync(roaster_id=roaster_id, coffee_id=coffee_id,
+                                                                            client=self.__api))
+        self.logger.debug(result)
+        return result
+
     def add_coffee(self, roaster_id: str, coffee: CoffeeRequestEntity) -> CoffeeResult:
         self.logger.info("Adding coffee")
-        result = self.__safe_call(
-            lambda *args: self.__call_and_fetch(
+        result = self.__call_and_fetch(
+            lambda *args: self.__safe_call(
                 lambda *args: post_api_v1_roaster_roasterid_coffee.sync_detailed(
                     json_body=coffee,
                     roaster_id=roaster_id,
                     x_coffee_auth=self.__auth_token,
                     client=self.__api
-                ),
-                lambda id: get_api_v1_roaster_roasterid_coffee_coffeeid.sync(roaster_id=roaster_id, coffee_id=id,
-                                                                             client=self.__api)
-            )
+                )
+            ),
+            lambda id: self.get_coffee(roaster_id, id)
         )
         self.logger.debug(result)
         return result
 
     def update_coffee(self, roaster_id: str, coffee_id: str, coffee: CoffeeRequestEntity) -> CoffeeResult:
         self.logger.info(f"Updating coffee {coffee_id} in roaster {roaster_id}")
-        result = self.__safe_call(
-            lambda *args: self.__call_and_fetch(
+        result = self.__call_and_fetch(
+            lambda *args: self.__safe_call(
                 lambda *args: put_api_v1_roaster_roasterid_coffee_coffeeid.sync_detailed(
                     json_body=coffee,
                     roaster_id=roaster_id,
                     coffee_id=coffee_id,
                     x_coffee_auth=self.__auth_token,
                     client=self.__api
-                ),
-                lambda id: get_api_v1_roaster_roasterid_coffee_coffeeid.sync(roaster_id=roaster_id, coffee_id=id,
-                                                                             client=self.__api)
-            )
+                )
+            ),
+            lambda id: self.get_coffee(roaster_id, id)
         )
         self.logger.debug(result)
         return result
