@@ -72,8 +72,6 @@ class DataClient:
 
     def get_all_coffee_with_rosters(self) -> list[CoffeeResultWithRoaster]:
         self.logger.info("Fetching all coffee with roasters")
-        results = []
-
         def __get_page(page: int, limit: int = self.__DEFAULT_LIMIT):
             self.logger.debug(f"Fetching page {page}")
             result = self.__safe_call(
@@ -98,8 +96,6 @@ class DataClient:
 
     def get_all_roasters(self) -> list[RoasterResult]:
         self.logger.info("Fetching all roasters")
-        results = []
-
         def __get_page(page: int, limit: int = self.__DEFAULT_LIMIT):
             self.logger.debug(f"Fetching page {page}")
             result = self.__safe_call(
