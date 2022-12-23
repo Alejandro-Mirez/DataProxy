@@ -7,12 +7,9 @@ name = "pypi"
 fastapi = "*"
 pytest = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-urllib3 = "~=1.26.7"
-certifi = ">=14.5.14"
-frozendict = "~=2.3.4"
-python-dateutil = "~=2.7.0"
 setuptools = "*"
-typing-extensions = "~=4.3.0"
+coffee-freaks-api-client = {editable = true, path = "./coffee-freaks-api-client"}
+httpx = "*"
 
 [dev-packages]
 
