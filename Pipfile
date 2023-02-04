@@ -6,12 +6,12 @@ name = "pypi"
 [packages]
 fastapi = "*"
 pytest = "*"
-uvicorn = {extras = ["standard"], version = "*"}
 setuptools = "*"
 coffee-freaks-api-client = {editable = true, path = "./coffee-freaks-api-client"}
 httpx = "*"
+geonamescache = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.10"

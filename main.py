@@ -9,6 +9,7 @@ from data_store import DataStore
 from data_service import DataService
 from coffee_freaks_api_client import Client
 from logger_config import LogConfig
+from model import Item
 
 dictConfig(LogConfig().dict())
 
@@ -19,7 +20,6 @@ data_store = DataStore(data_client=data_client)
 data_service = DataService(data_client=data_client, data_store=data_store)
 app = FastAPI(debug=settings.debug)
 
-
 @app.get("/health")
 async def health():
     logger.info(f"Fetching healthcheck of {settings.api_host}")
@@ -29,8 +29,10 @@ async def health():
 
 
 @app.post("/v1/data")
-async def post_data():
-    return data_service.process_data()
+async def post_data(item:Item):
+    print(item)
+    result = data_service.process_data(item)
+    return result
 
 
 @app.on_event("shutdown")
