@@ -7,10 +7,11 @@ import attr
 
 from ..types import UNSET, Unset
 
-from typing import Union
-from ..types import UNSET, Unset
-from ..models.coffee_kind import CoffeeKind
 from ..models.data_ordering import DataOrdering
+from ..types import UNSET, Unset
+from typing import Union
+from ..models.coffee_kind import CoffeeKind
+
 
 
 
@@ -18,20 +19,21 @@ from ..models.data_ordering import DataOrdering
 
 T = TypeVar("T", bound="GetAllCoffeeParameters")
 
+
 @attr.s(auto_attribs=True)
 class GetAllCoffeeParameters:
-    """Parameters used in query
+    """ Parameters used in query
 
-    Attributes:
-        limit (int):
-        offset (int):
-        kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
-        created (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-        updated (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-    """
+        Attributes:
+            limit (Union[Unset, int]): How many results should be returned per page. Default 10 Default: 10.
+            offset (Union[Unset, int]): How many results should be removed from start of list
+            kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
+            created (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+            updated (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+     """
 
-    limit: int
-    offset: int
+    limit: Union[Unset, int] = 10
+    offset: Union[Unset, int] = 0
     kind: Union[Unset, CoffeeKind] = UNSET
     created: Union[Unset, DataOrdering] = DataOrdering.DESC
     updated: Union[Unset, DataOrdering] = DataOrdering.DESC
@@ -57,9 +59,11 @@ class GetAllCoffeeParameters:
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "limit": limit,
-            "offset": offset,
         })
+        if limit is not UNSET:
+            field_dict["limit"] = limit
+        if offset is not UNSET:
+            field_dict["offset"] = offset
         if kind is not UNSET:
             field_dict["kind"] = kind
         if created is not UNSET:
@@ -74,9 +78,9 @@ class GetAllCoffeeParameters:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        limit = d.pop("limit")
+        limit = d.pop("limit", UNSET)
 
-        offset = d.pop("offset")
+        offset = d.pop("offset", UNSET)
 
         _kind = d.pop("kind", UNSET)
         kind: Union[Unset, CoffeeKind]

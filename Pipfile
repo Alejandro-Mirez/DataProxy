@@ -5,13 +5,15 @@ name = "pypi"
 
 [packages]
 fastapi = "*"
-pytest = "*"
 setuptools = "*"
 coffee-freaks-api-client = {editable = true, path = "./coffee-freaks-api-client"}
 httpx = "*"
 geonamescache = "*"
+python-multipart = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.10"

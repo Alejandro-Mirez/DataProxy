@@ -7,9 +7,10 @@ import attr
 
 from ..types import UNSET, Unset
 
+from ..models.data_ordering import DataOrdering
 from ..types import UNSET, Unset
 from typing import Union
-from ..models.data_ordering import DataOrdering
+
 
 
 
@@ -17,19 +18,20 @@ from ..models.data_ordering import DataOrdering
 
 T = TypeVar("T", bound="GetAllRoasterParameters")
 
+
 @attr.s(auto_attribs=True)
 class GetAllRoasterParameters:
-    """Parameters used in query
+    """ Parameters used in query
 
-    Attributes:
-        limit (int):
-        offset (int):
-        created (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-        updated (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-    """
+        Attributes:
+            limit (Union[Unset, int]): How many results should be returned per page. Default 10 Default: 10.
+            offset (Union[Unset, int]): How many results should be removed from start of list
+            created (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+            updated (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+     """
 
-    limit: int
-    offset: int
+    limit: Union[Unset, int] = 10
+    offset: Union[Unset, int] = 0
     created: Union[Unset, DataOrdering] = DataOrdering.DESC
     updated: Union[Unset, DataOrdering] = DataOrdering.DESC
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -50,9 +52,11 @@ class GetAllRoasterParameters:
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "limit": limit,
-            "offset": offset,
         })
+        if limit is not UNSET:
+            field_dict["limit"] = limit
+        if offset is not UNSET:
+            field_dict["offset"] = offset
         if created is not UNSET:
             field_dict["created"] = created
         if updated is not UNSET:
@@ -65,9 +69,9 @@ class GetAllRoasterParameters:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        limit = d.pop("limit")
+        limit = d.pop("limit", UNSET)
 
-        offset = d.pop("offset")
+        offset = d.pop("offset", UNSET)
 
         _created = d.pop("created", UNSET)
         created: Union[Unset, DataOrdering]

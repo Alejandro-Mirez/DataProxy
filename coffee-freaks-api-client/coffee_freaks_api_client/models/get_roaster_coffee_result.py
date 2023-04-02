@@ -7,9 +7,9 @@ import attr
 
 from ..types import UNSET, Unset
 
+from typing import cast
 from typing import cast, List
 from typing import Dict
-from typing import cast
 from ..types import UNSET, Unset
 from typing import Union
 
@@ -20,16 +20,18 @@ if TYPE_CHECKING:
 
 
 
+
 T = TypeVar("T", bound="GetRoasterCoffeeResult")
+
 
 @attr.s(auto_attribs=True)
 class GetRoasterCoffeeResult:
-    """
-    Attributes:
-        count (int): Count of all results
-        parameters (GetRoasterCoffeeParameters): Parameters used in query
-        results (Union[Unset, List['CoffeeResult']]): Results in actual page
-    """
+    """ 
+        Attributes:
+            count (int): Count of all results
+            parameters (GetRoasterCoffeeParameters): Parameters used in query
+            results (Union[Unset, List['CoffeeResult']]): Results in actual page
+     """
 
     count: int
     parameters: 'GetRoasterCoffeeParameters'

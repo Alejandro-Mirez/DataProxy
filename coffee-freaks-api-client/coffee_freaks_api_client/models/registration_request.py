@@ -12,16 +12,18 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="RegistrationRequest")
+
 
 @attr.s(auto_attribs=True)
 class RegistrationRequest:
-    """
-    Attributes:
-        login (str): Login must be an email
-        password (str): Password at lest 8 symbols long with big and small letters, number and symbols
-        repeat_password (str): Repeated password - needs to be same as original password
-    """
+    """ 
+        Attributes:
+            login (str): Login must be an email
+            password (str): Password at lest 8 symbols long with big and small letters, number and symbols
+            repeat_password (str): Repeated password - needs to be same as original password
+     """
 
     login: str
     password: str

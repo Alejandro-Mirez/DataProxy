@@ -7,56 +7,60 @@ import attr
 
 from ..types import UNSET, Unset
 
-from ..models.brewing_method import BrewingMethod
-from typing import cast, List
-from typing import Dict
-from typing import cast
 from ..types import UNSET, Unset
-from ..models.coffee_kind import CoffeeKind
-from typing import Union
+from typing import cast
 from ..models.processing import Processing
-from dateutil.parser import isoparse
 import datetime
+from ..models.coffee_kind import CoffeeKind
+from typing import cast, List
+from dateutil.parser import isoparse
+from typing import Dict
+from ..models.brewing_method import BrewingMethod
+from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.roaster_result import RoasterResult
-  from ..models.grammage import Grammage
   from ..models.beans import Beans
+  from ..models.roaster_result import RoasterResult
+  from ..models.image_result import ImageResult
+  from ..models.grammage import Grammage
+
 
 
 
 
 T = TypeVar("T", bound="CoffeeResultWithRoaster")
 
+
 @attr.s(auto_attribs=True)
 class CoffeeResultWithRoaster:
-    """
-    Attributes:
-        id (str): Id of coffee
-        roaster (RoasterResult):
-        name (str): Name of coffee
-        grammage (Grammage): How big package of coffee
-        kind (CoffeeKind): Beans, grind coffee, capsules or instant
-        speciality (bool): Rated as speciality coffee by roaster
-        created (str): When it was created
-        updated (str): When it was updated
-        origin (Union[Unset, List[str]]): Where coffee beans comes from
-        beans (Union[Unset, List['Beans']]): From where coffee comes from (Arabica, Robusta etc.) and in what ratio
-        processing (Union[Unset, List[Processing]]): How coffee was processed (Honey, Natural etc.)
-        roasting_level (Union[Unset, int]): Roasting level of beans - 2: Blond, 5: Medium, 8: Dark
-        dedicated (Union[Unset, List[BrewingMethod]]): Dedicated to what type of brewing
-        description (Union[Unset, str]): Description of product
-        roasting_dates (Union[Unset, List[datetime.date]]): When coffee was roasted
-    """
+    """ 
+        Attributes:
+            id (str): Id of coffee
+            roaster (RoasterResult):
+            name (str): Name of coffee
+            kind (CoffeeKind): Beans, grind coffee, capsules or instant
+            speciality (bool): Rated as speciality coffee by roaster
+            created (str): When it was created
+            updated (str): When it was updated
+            grammage (Union[Unset, List['Grammage']]): How big package of coffee
+            origin (Union[Unset, List[str]]): Where coffee beans comes from
+            beans (Union[Unset, List['Beans']]): From where coffee comes from (Arabica, Robusta etc.) and in what ratio
+            processing (Union[Unset, List[Processing]]): How coffee was processed (Honey, Natural etc.)
+            roasting_level (Union[Unset, int]): Roasting level of beans - 2: Blond, 5: Medium, 8: Dark
+            dedicated (Union[Unset, List[BrewingMethod]]): Dedicated to what type of brewing
+            description (Union[Unset, str]): Description of product
+            roasting_dates (Union[Unset, List[datetime.date]]): When coffee was roasted
+            images (Union[Unset, List['ImageResult']]): List of related images
+     """
 
     id: str
     roaster: 'RoasterResult'
     name: str
-    grammage: 'Grammage'
     kind: CoffeeKind
     speciality: bool
     created: str
     updated: str
+    grammage: Union[Unset, List['Grammage']] = UNSET
     origin: Union[Unset, List[str]] = UNSET
     beans: Union[Unset, List['Beans']] = UNSET
     processing: Union[Unset, List[Processing]] = UNSET
@@ -64,24 +68,35 @@ class CoffeeResultWithRoaster:
     dedicated: Union[Unset, List[BrewingMethod]] = UNSET
     description: Union[Unset, str] = UNSET
     roasting_dates: Union[Unset, List[datetime.date]] = UNSET
+    images: Union[Unset, List['ImageResult']] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
 
     def to_dict(self) -> Dict[str, Any]:
-        from ..models.roaster_result import RoasterResult
-        from ..models.grammage import Grammage
         from ..models.beans import Beans
+        from ..models.roaster_result import RoasterResult
+        from ..models.image_result import ImageResult
+        from ..models.grammage import Grammage
         id = self.id
         roaster = self.roaster.to_dict()
 
         name = self.name
-        grammage = self.grammage.to_dict()
-
         kind = self.kind.value
 
         speciality = self.speciality
         created = self.created
         updated = self.updated
+        grammage: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.grammage, Unset):
+            grammage = []
+            for grammage_item_data in self.grammage:
+                grammage_item = grammage_item_data.to_dict()
+
+                grammage.append(grammage_item)
+
+
+
+
         origin: Union[Unset, List[str]] = UNSET
         if not isinstance(self.origin, Unset):
             origin = self.origin
@@ -134,6 +149,17 @@ class CoffeeResultWithRoaster:
 
 
 
+        images: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.images, Unset):
+            images = []
+            for images_item_data in self.images:
+                images_item = images_item_data.to_dict()
+
+                images.append(images_item)
+
+
+
+
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -141,12 +167,13 @@ class CoffeeResultWithRoaster:
             "id": id,
             "roaster": roaster,
             "name": name,
-            "grammage": grammage,
             "kind": kind,
             "speciality": speciality,
             "created": created,
             "updated": updated,
         })
+        if grammage is not UNSET:
+            field_dict["grammage"] = grammage
         if origin is not UNSET:
             field_dict["origin"] = origin
         if beans is not UNSET:
@@ -161,6 +188,8 @@ class CoffeeResultWithRoaster:
             field_dict["description"] = description
         if roasting_dates is not UNSET:
             field_dict["roastingDates"] = roasting_dates
+        if images is not UNSET:
+            field_dict["images"] = images
 
         return field_dict
 
@@ -168,9 +197,10 @@ class CoffeeResultWithRoaster:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.roaster_result import RoasterResult
-        from ..models.grammage import Grammage
         from ..models.beans import Beans
+        from ..models.roaster_result import RoasterResult
+        from ..models.image_result import ImageResult
+        from ..models.grammage import Grammage
         d = src_dict.copy()
         id = d.pop("id")
 
@@ -180,11 +210,6 @@ class CoffeeResultWithRoaster:
 
 
         name = d.pop("name")
-
-        grammage = Grammage.from_dict(d.pop("grammage"))
-
-
-
 
         kind = CoffeeKind(d.pop("kind"))
 
@@ -196,6 +221,16 @@ class CoffeeResultWithRoaster:
         created = d.pop("created")
 
         updated = d.pop("updated")
+
+        grammage = []
+        _grammage = d.pop("grammage", UNSET)
+        for grammage_item_data in (_grammage or []):
+            grammage_item = Grammage.from_dict(grammage_item_data)
+
+
+
+            grammage.append(grammage_item)
+
 
         origin = cast(List[str], d.pop("origin", UNSET))
 
@@ -244,15 +279,25 @@ class CoffeeResultWithRoaster:
             roasting_dates.append(roasting_dates_item)
 
 
+        images = []
+        _images = d.pop("images", UNSET)
+        for images_item_data in (_images or []):
+            images_item = ImageResult.from_dict(images_item_data)
+
+
+
+            images.append(images_item)
+
+
         coffee_result_with_roaster = cls(
             id=id,
             roaster=roaster,
             name=name,
-            grammage=grammage,
             kind=kind,
             speciality=speciality,
             created=created,
             updated=updated,
+            grammage=grammage,
             origin=origin,
             beans=beans,
             processing=processing,
@@ -260,6 +305,7 @@ class CoffeeResultWithRoaster:
             dedicated=dedicated,
             description=description,
             roasting_dates=roasting_dates,
+            images=images,
         )
 
         coffee_result_with_roaster.additional_properties = d

@@ -7,16 +7,16 @@ import attr
 
 from ..types import UNSET, Unset
 
-from ..models.brewing_method import BrewingMethod
-from typing import cast, List
-from typing import Dict
-from typing import cast
 from ..types import UNSET, Unset
-from ..models.coffee_kind import CoffeeKind
-from typing import Union
+from typing import cast
 from ..models.processing import Processing
-from dateutil.parser import isoparse
 import datetime
+from ..models.coffee_kind import CoffeeKind
+from typing import cast, List
+from dateutil.parser import isoparse
+from typing import Dict
+from ..models.brewing_method import BrewingMethod
+from typing import Union
 
 if TYPE_CHECKING:
   from ..models.beans import Beans
@@ -25,27 +25,29 @@ if TYPE_CHECKING:
 
 
 
+
 T = TypeVar("T", bound="PatchCoffeeRequest")
+
 
 @attr.s(auto_attribs=True)
 class PatchCoffeeRequest:
-    """
-    Attributes:
-        name (Union[Unset, str]): Name of coffee
-        grammage (Union[Unset, Grammage]): How big package of coffee
-        origin (Union[Unset, List[str]]): Where coffee beans comes from
-        kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
-        beans (Union[Unset, List['Beans']]): From where coffee comes from (Arabica, Robusta etc.) and in what ratio
-        processing (Union[Unset, List[Processing]]): How coffee was processed (Honey, Natural etc.)
-        roasting_level (Union[Unset, int]): Roasting level of beans - 2: Blond, 5: Medium, 8: Dark
-        dedicated (Union[Unset, List[BrewingMethod]]): Dedicated to what type of brewing
-        description (Union[Unset, str]): Description of product
-        speciality (Union[Unset, bool]): Rated as speciality coffee by roaster
-        roasting_dates (Union[Unset, List[datetime.date]]): When coffee was roasted - in format yyyy-MM-dd
-    """
+    """ 
+        Attributes:
+            name (Union[Unset, str]): Name of coffee
+            grammage (Union[Unset, List['Grammage']]): How big package of coffee
+            origin (Union[Unset, List[str]]): Where coffee beans comes from
+            kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
+            beans (Union[Unset, List['Beans']]): From where coffee comes from (Arabica, Robusta etc.) and in what ratio
+            processing (Union[Unset, List[Processing]]): How coffee was processed (Honey, Natural etc.)
+            roasting_level (Union[Unset, int]): Roasting level of beans - 2: Blond, 5: Medium, 8: Dark
+            dedicated (Union[Unset, List[BrewingMethod]]): Dedicated to what type of brewing
+            description (Union[Unset, str]): Description of product
+            speciality (Union[Unset, bool]): Rated as speciality coffee by roaster
+            roasting_dates (Union[Unset, List[datetime.date]]): When coffee was roasted - in format yyyy-MM-dd
+     """
 
     name: Union[Unset, str] = UNSET
-    grammage: Union[Unset, 'Grammage'] = UNSET
+    grammage: Union[Unset, List['Grammage']] = UNSET
     origin: Union[Unset, List[str]] = UNSET
     kind: Union[Unset, CoffeeKind] = UNSET
     beans: Union[Unset, List['Beans']] = UNSET
@@ -62,9 +64,16 @@ class PatchCoffeeRequest:
         from ..models.beans import Beans
         from ..models.grammage import Grammage
         name = self.name
-        grammage: Union[Unset, Dict[str, Any]] = UNSET
+        grammage: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.grammage, Unset):
-            grammage = self.grammage.to_dict()
+            grammage = []
+            for grammage_item_data in self.grammage:
+                grammage_item = grammage_item_data.to_dict()
+
+                grammage.append(grammage_item)
+
+
+
 
         origin: Union[Unset, List[str]] = UNSET
         if not isinstance(self.origin, Unset):
@@ -162,14 +171,14 @@ class PatchCoffeeRequest:
         d = src_dict.copy()
         name = d.pop("name", UNSET)
 
+        grammage = []
         _grammage = d.pop("grammage", UNSET)
-        grammage: Union[Unset, Grammage]
-        if isinstance(_grammage,  Unset):
-            grammage = UNSET
-        else:
-            grammage = Grammage.from_dict(_grammage)
+        for grammage_item_data in (_grammage or []):
+            grammage_item = Grammage.from_dict(grammage_item_data)
 
 
+
+            grammage.append(grammage_item)
 
 
         origin = cast(List[str], d.pop("origin", UNSET))
