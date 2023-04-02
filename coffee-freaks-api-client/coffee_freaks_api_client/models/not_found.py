@@ -14,15 +14,17 @@ from typing import Union
 
 
 
+
 T = TypeVar("T", bound="NotFound")
+
 
 @attr.s(auto_attribs=True)
 class NotFound:
-    """
-    Attributes:
-        message (str):
-        path (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            message (str):
+            path (Union[Unset, str]):
+     """
 
     message: str
     path: Union[Unset, str] = UNSET

@@ -7,10 +7,11 @@ import attr
 
 from ..types import UNSET, Unset
 
-from typing import Union
-from ..types import UNSET, Unset
-from ..models.coffee_kind import CoffeeKind
 from ..models.data_ordering import DataOrdering
+from ..types import UNSET, Unset
+from typing import Union
+from ..models.coffee_kind import CoffeeKind
+
 
 
 
@@ -18,17 +19,18 @@ from ..models.data_ordering import DataOrdering
 
 T = TypeVar("T", bound="GetRoasterCoffeeParameters")
 
+
 @attr.s(auto_attribs=True)
 class GetRoasterCoffeeParameters:
-    """Parameters used in query
+    """ Parameters used in query
 
-    Attributes:
-        limit (int):
-        offset (int):
-        kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
-        created (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-        updated (Union[Unset, DataOrdering]):  Default: DataOrdering.DESC.
-    """
+        Attributes:
+            limit (int):
+            offset (int):
+            kind (Union[Unset, CoffeeKind]): Beans, grind coffee, capsules or instant
+            created (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+            updated (Union[Unset, DataOrdering]): Sort by created field - default is DESC Default: DataOrdering.DESC.
+     """
 
     limit: int
     offset: int

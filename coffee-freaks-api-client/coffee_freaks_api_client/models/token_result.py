@@ -12,15 +12,17 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="TokenResult")
+
 
 @attr.s(auto_attribs=True)
 class TokenResult:
-    """
-    Attributes:
-        auth_token (str): Token used as auth token in X-Coffee-Auth header
-        refresh_token (str): Token used as refresh token in X-Coffee-Refresh-Auth header
-    """
+    """ 
+        Attributes:
+            auth_token (str): Token used as auth token in X-Coffee-Auth header
+            refresh_token (str): Token used as refresh token in X-Coffee-Refresh-Auth header
+     """
 
     auth_token: str
     refresh_token: str

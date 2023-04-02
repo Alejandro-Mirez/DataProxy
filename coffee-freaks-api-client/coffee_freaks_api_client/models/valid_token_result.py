@@ -12,16 +12,18 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="ValidTokenResult")
+
 
 @attr.s(auto_attribs=True)
 class ValidTokenResult:
-    """
-    Attributes:
-        id (str): User id
-        login (str): Account login used to login
-        valid_to (str): DateTime with date till token is valid
-    """
+    """ 
+        Attributes:
+            id (str): User id
+            login (str): Account login used to login
+            valid_to (str): DateTime with date till token is valid
+     """
 
     id: str
     login: str

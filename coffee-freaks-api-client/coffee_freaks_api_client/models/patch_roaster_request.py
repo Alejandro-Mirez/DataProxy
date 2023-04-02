@@ -14,20 +14,22 @@ from typing import Union
 
 
 
+
 T = TypeVar("T", bound="PatchRoasterRequest")
+
 
 @attr.s(auto_attribs=True)
 class PatchRoasterRequest:
-    """
-    Attributes:
-        name (Union[Unset, str]): Label name of roaster
-        full_name (Union[Unset, str]): Full name of roaster
-        country (Union[Unset, str]): From what country roaster origin
-        city (Union[Unset, str]): In what city roaster originate
-    """
+    """ 
+        Attributes:
+            name (Union[Unset, str]): Label name of roaster
+            full_address (Union[Unset, str]): Full name of roaster
+            country (Union[Unset, str]): From what country roaster origin
+            city (Union[Unset, str]): In what city roaster originate
+     """
 
     name: Union[Unset, str] = UNSET
-    full_name: Union[Unset, str] = UNSET
+    full_address: Union[Unset, str] = UNSET
     country: Union[Unset, str] = UNSET
     city: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -35,7 +37,7 @@ class PatchRoasterRequest:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
-        full_name = self.full_name
+        full_address = self.full_address
         country = self.country
         city = self.city
 
@@ -45,8 +47,8 @@ class PatchRoasterRequest:
         })
         if name is not UNSET:
             field_dict["name"] = name
-        if full_name is not UNSET:
-            field_dict["fullName"] = full_name
+        if full_address is not UNSET:
+            field_dict["fullAddress"] = full_address
         if country is not UNSET:
             field_dict["country"] = country
         if city is not UNSET:
@@ -61,7 +63,7 @@ class PatchRoasterRequest:
         d = src_dict.copy()
         name = d.pop("name", UNSET)
 
-        full_name = d.pop("fullName", UNSET)
+        full_address = d.pop("fullAddress", UNSET)
 
         country = d.pop("country", UNSET)
 
@@ -69,7 +71,7 @@ class PatchRoasterRequest:
 
         patch_roaster_request = cls(
             name=name,
-            full_name=full_name,
+            full_address=full_address,
             country=country,
             city=city,
         )

@@ -12,14 +12,16 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="InvalidToken")
+
 
 @attr.s(auto_attribs=True)
 class InvalidToken:
-    """
-    Attributes:
-        reason (str):
-    """
+    """ 
+        Attributes:
+            reason (str):
+     """
 
     reason: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)

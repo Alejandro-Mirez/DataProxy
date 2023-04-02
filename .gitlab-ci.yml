@@ -1,0 +1,73 @@
+image: registry.gitlab.com/c5357/data-proxy/runner
+
+# DinD service is required for Testcontainers
+services:
+  - name: docker:dind
+    # explicitly disable tls to avoid docker startup interruption
+    command: [ "--tls=false" ]
+
+variables:
+  # Instruct Testcontainers to use the daemon of DinD, use port 2735 for non-tls connections.
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
+  RUNNER_IMAGE: $CI_REGISTRY/c5357/data-proxy/runner
+
+.docker-login:
+  before_script:
+    - echo "Runner image $RUNNER_IMAGE"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - refresh_runner
+  - test
+  - publish
+
+refresh_runner:
+  extends: .docker-login
+  image: docker:latest
+  stage: refresh_runner
+  only:
+    changes:
+      - Pipfile
+      - requirements.dev.txt
+  when: manual
+  except:
+    - tags
+  script:
+    - docker build --network=host -t $RUNNER_IMAGE -f ./scripts/runner/Dockerfile .
+    - docker push $RUNNER_IMAGE:latest
+
+test:unit:
+  stage: test
+  script:
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    paths:
+      - report.xml
+    reports:
+      junit: ["report.xml"]
+
+.publish:docker-image:
+  extends: .docker-login
+  stage: publish
+  script:
+    - docker build --network=host -t $CI_REGISTRY/c5357/data-proxy/app/branches:$CI_COMMIT_REF_SLUG -t $CI_REGISTRY/c5357/data-proxy/app:latest -f Dockerfile .
+    - docker push $CI_REGISTRY/c5357/data-proxy/app/branches:$CI_COMMIT_REF_SLUG
+    - docker push $CI_REGISTRY/c5357/data-proxy/app:latest
+
+publish:on-demand:
+  extends: .publish:docker-image
+  when: manual
+  except:
+    - tag
+    - main
+
+publish:automatic:
+  extends: .publish:docker-image
+  only:
+    - tag
+    - main

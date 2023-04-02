@@ -7,9 +7,9 @@ import attr
 
 from ..types import UNSET, Unset
 
+from typing import cast
 from typing import cast, List
 from typing import Dict
-from typing import cast
 from ..types import UNSET, Unset
 from typing import Union
 
@@ -19,15 +19,17 @@ if TYPE_CHECKING:
 
 
 
+
 T = TypeVar("T", bound="InvalidInput")
+
 
 @attr.s(auto_attribs=True)
 class InvalidInput:
-    """
-    Attributes:
-        message (str):
-        fields (Union[Unset, List['InvalidField']]): List of invalid fields
-    """
+    """ 
+        Attributes:
+            message (str):
+            fields (Union[Unset, List['InvalidField']]): List of invalid fields
+     """
 
     message: str
     fields: Union[Unset, List['InvalidField']] = UNSET

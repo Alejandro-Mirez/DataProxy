@@ -12,14 +12,16 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="ResetPasswordInput")
+
 
 @attr.s(auto_attribs=True)
 class ResetPasswordInput:
-    """
-    Attributes:
-        login (str):
-    """
+    """ 
+        Attributes:
+            login (str):
+     """
 
     login: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)

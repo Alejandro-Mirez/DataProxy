@@ -7,9 +7,10 @@ import attr
 
 from ..types import UNSET, Unset
 
-from ..models.simple_result_status import SimpleResultStatus
 from ..types import UNSET, Unset
+from ..models.simple_result_status import SimpleResultStatus
 from typing import Union
+
 
 
 
@@ -17,13 +18,14 @@ from typing import Union
 
 T = TypeVar("T", bound="SuccessResult")
 
+
 @attr.s(auto_attribs=True)
 class SuccessResult:
-    """
-    Attributes:
-        status (SimpleResultStatus):
-        message (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            status (SimpleResultStatus):
+            message (Union[Unset, str]):
+     """
 
     status: SimpleResultStatus
     message: Union[Unset, str] = UNSET

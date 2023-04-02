@@ -12,13 +12,15 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="MapString")
+
 
 @attr.s(auto_attribs=True)
 class MapString:
-    """Meta information about validation result
+    """ Meta information about validation result
 
-    """
+     """
 
     additional_properties: Dict[str, str] = attr.ib(init=False, factory=dict)
 

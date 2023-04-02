@@ -1,0 +1,127 @@
+[
+  {
+    "title": "Johan & Nyström - Etiopia Guji Filter 250g",
+    "roasting_date": "14.11.2022",
+    "tags": [
+      "Johan & Nyström",
+      "kawa",
+      "ziarnista",
+      "100% arabica",
+      "arabika",
+      "Szwecja",
+      "Skandynawia",
+      "etiopia"
+    ],
+    "description": "description",
+    "details": {
+      "Ean:": "7350045061218",
+      "Producent:": "Johan & Nyström",
+      "Opakowanie:": "250 g",
+      "Pochodzenie:": "Etiopia",
+      "Rodzaj kawy:": "Ziarnista",
+      "Arabica / Robusta:": "100% Arabica",
+      "Obróbka:": "Natural",
+      "Stopień palenia ziaren:": "Jasny",
+      "Przeznaczenie:": "Drip (Metody alternatywne)",
+      "Pełna nazwa producenta:": "Johan & Nystrom Kafferostare Tehandlare Hamringevagen 1 14641 Tullinge, Sweden / Szwecja",
+      "Wysyłka w ciągu:": "1 dzień roboczy"
+    }
+  },
+  {
+    "title": "HAYB - Się Przelewa Kwiat 500g",
+    "roasting_date": "27.09.2022",
+    "tags": [
+      "how are you brewing",
+      "coffee republic",
+      "polska palarnia",
+      "arabika",
+      "arabica",
+      "speciality",
+      "specialty",
+      "etiopia",
+      "ethiopia"
+    ],
+    "description": "description",
+    "details": {
+      "Producent:": "HAYB",
+      "Opakowanie:": "500 g",
+      "Pochodzenie:": "Etiopia",
+      "Rodzaj kawy:": "Ziarnista",
+      "Arabica / Robusta:": "100% Arabica",
+      "Obróbka:": "Washed",
+      "Stopień palenia ziaren:": "Jasny",
+      "Przeznaczenie:": "Drip (Metody alternatywne)",
+      "Pełna nazwa producenta:": "HAYB Coffee Sp. z o.o. Al. Jerozolimskie 200 02-486 Warszawa",
+      "Wysyłka w ciągu:": "1 dzień roboczy"
+    }
+  },
+  {
+    "title": "Johan & Nyström - Fika - Kawa mielona Filter 500g",
+    "roasting_date": "17.07.2022",
+    "tags": [
+      "Johan Nystrom",
+      "Fika",
+      "Szwecja",
+      "arabika",
+      "arabica"
+    ],
+    "description": "description",
+    "details": {
+      "Ean:": "7350045060457",
+      "Producent:": "Johan & Nyström",
+      "Opakowanie:": "500 g",
+      "Rodzaj kawy:": "Mielona",
+      "Arabica / Robusta:": "100% Arabica",
+      "Stopień palenia ziaren:": "Średni",
+      "Przeznaczenie:": "Drip i espresso",
+      "Pełna nazwa producenta:": "Johan & Nystrom Kafferostare Tehandlare Hamringevagen 1 14641 Tullinge, Sweden / Szwecja",
+      "Wysyłka w ciągu:": "1 dzień roboczy"
+    }
+  },
+  {
+    "title": "Illy Intenso Bold Roast - Kawa mielona",
+    "roasting_date": "10.01.2022",
+    "tags": [
+      "kawa",
+      "mielona",
+      "włoska",
+      "ily",
+      "illy",
+      "Włochy",
+      "arabica",
+      "ciemno palona",
+      "arabika",
+      "espresso",
+      "kawa sypana"
+    ],
+    "description": "description",
+    "details": {
+      "Ean:": "8003753900469",
+      "Producent:": "Illy",
+      "Opakowanie:": "250 g",
+      "Rodzaj kawy:": "Mielona",
+      "Arabica / Robusta:": "100% Arabica",
+      "Stopień palenia ziaren:": "Ciemny",
+      "Przeznaczenie:": "Espresso",
+      "Pełna nazwa producenta:": "Illycaffe S.p.A. | P.IVA 00055180327 | Via Flavia 110, 34147 Trieste - Italy / Włochy",
+      "Wysyłka w ciągu:": "1 dzień roboczy"
+    }
+  },
+
+  {
+    "title": "Bialetti - Milano - 16 Kapsułek",
+    "tags": [
+      "bialetti", "włoska", "kawa", "kapsułka"
+    ],
+    "description": "description",
+    "details": {"Ean:" : "8001306965002",
+      "Producent:" : "Bialetti",
+      "Opakowanie:" : "16 sztuk",
+      "Rodzaj kawy:" : "W kapsułkach",
+      "Arabica / Robusta:" : "50/50",
+      "Stopień palenia ziaren:" : "Ciemny",
+      "Przeznaczenie:" : "Espresso",
+      "Pełna nazwa producenta:" : "Beyond The Bean Limited, Cala Trading Estate, Ashton Vale Road, Bristol, England / Anglia",
+      "Wysyłka w ciągu:" : "1 dzień roboczy"}
+  }
+]

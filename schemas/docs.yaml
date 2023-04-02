@@ -1,13 +1,12 @@
 openapi: 3.0.3
 info:
   title: Coffee Freaks API
-  version: 0.0.1-178-83b5c11-SNAPSHOT
+  version: 0.0.1-172-f00a729-dirty-SNAPSHOT
 paths:
   /api/v1/account/login:
     post:
       tags:
-      - All
-      - Account - /account/
+      - Authentication - /account/
       summary: Login user
       operationId: postApiV1AccountLogin
       parameters:
@@ -70,8 +69,7 @@ paths:
   /api/v1/account/logout:
     get:
       tags:
-      - All
-      - Account - /account/
+      - Authentication - /account/
       summary: Logout user
       operationId: getApiV1AccountLogout
       parameters:
@@ -142,8 +140,6 @@ paths:
   /api/v1/account/register:
     post:
       tags:
-      - All
-      - Account - /account/
       - Register - /account/register/
       summary: Register new user and sends email to user for verification
       operationId: postApiV1AccountRegister
@@ -189,8 +185,6 @@ paths:
   /api/v1/account/register/resend:
     post:
       tags:
-      - All
-      - Account - /account/
       - Register - /account/register/
       summary: Creates new token and sends it to user
       operationId: postApiV1AccountRegisterResend
@@ -236,8 +230,6 @@ paths:
   /api/v1/account/register/verify:
     get:
       tags:
-      - All
-      - Account - /account/
       - Register - /account/register/
       summary: Verify registration token and activate user account
       operationId: getApiV1AccountRegisterVerify
@@ -277,9 +269,7 @@ paths:
   /api/v1/account/password/reset:
     post:
       tags:
-      - All
-      - Account - /account/
-      - Password - /account/password
+      - Password - /account/password/
       summary: Send reset password link to user account
       operationId: postApiV1AccountPasswordReset
       parameters:
@@ -324,9 +314,7 @@ paths:
   /api/v1/account/password/reset/verify:
     post:
       tags:
-      - All
-      - Account - /account/
-      - Password - /account/password
+      - Password - /account/password/
       summary: Verify user reset password token and change a password
       operationId: postApiV1AccountPasswordResetVerify
       parameters:
@@ -371,8 +359,6 @@ paths:
   /api/v1/account/token/refresh:
     post:
       tags:
-      - All
-      - Account - /account/
       - Token - /account/token
       summary: Refresh auth token
       operationId: postApiV1AccountTokenRefresh
@@ -466,8 +452,6 @@ paths:
   /api/v1/account/token/verify:
     post:
       tags:
-      - All
-      - Account - /account/
       - Token - /account/token
       summary: Verify user session
       operationId: postApiV1AccountTokenVerify
@@ -513,7 +497,6 @@ paths:
   /api/v1/roaster:
     get:
       tags:
-      - All
       - Roaster - /roaster/
       description: Get all roaster entities from database
       operationId: getApiV1Roaster
@@ -527,29 +510,27 @@ paths:
           type: string
       - name: limit
         in: query
-        description: How many results should be returned per page. Default 10
         required: false
         schema:
           type: integer
+          description: How many results should be returned per page. Default 10
           format: int32
           default: 10
       - name: offset
         in: query
-        description: How many results should be removed from start of list
         required: false
         schema:
           type: integer
+          description: How many results should be removed from start of list
           format: int32
           default: 0
       - name: created
         in: query
-        description: Sort by created field - default is DESC
         required: false
         schema:
           $ref: '#/components/schemas/DataOrdering'
       - name: updated
         in: query
-        description: Sor by updated field
         required: false
         schema:
           $ref: '#/components/schemas/DataOrdering'
@@ -574,7 +555,6 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     post:
       tags:
-      - All
       - Roaster - /roaster/
       description: Add Roaster
       operationId: postApiV1Roaster
@@ -636,10 +616,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+  /api/v1/roaster/{roasterId}/image:
+    post:
+      tags:
+      - Roaster - /roaster/
+      description: Add roaster image
+      operationId: postApiV1RoasterRoasteridImage
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: roasterId
+        in: path
+        description: Roaster uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddRoasterFile'
+        required: true
+      responses:
+        '201':
+          description: ''
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '422':
+          description: Input request was invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInput'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
   /api/v1/roaster/{roasterId}:
     get:
       tags:
-      - All
       - Roaster - /roaster/
       description: Get roaster
       operationId: getApiV1RoasterRoasterid
@@ -685,7 +735,6 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     put:
       tags:
-      - All
       - Roaster - /roaster/
       description: Update Roaster field
       operationId: putApiV1RoasterRoasterid
@@ -762,7 +811,6 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     delete:
       tags:
-      - All
       - Roaster - /roaster/
       description: Delete Roaster
       operationId: deleteApiV1RoasterRoasterid
@@ -822,7 +870,6 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     patch:
       tags:
-      - All
       - Roaster - /roaster/
       description: Update Roaster field
       operationId: patchApiV1RoasterRoasterid
@@ -897,11 +944,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+  /api/v1/roaster/{roasterId}/images:
+    get:
+      tags:
+      - Roaster - /roaster/
+      description: Get coffee
+      operationId: getApiV1RoasterRoasteridImages
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: roasterId
+        in: path
+        description: Roaster uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
   /api/v1/roaster/{roasterId}/coffee:
     get:
       tags:
-      - All
-      - Roaster - /roaster/
+      - Coffee - /coffee/
       description: Get all roaster coffees
       operationId: getApiV1RoasterRoasteridCoffee
       parameters:
@@ -980,9 +1074,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     post:
       tags:
-      - All
-      - Roaster - /roaster/
-      - Roaster coffee - /roaster/{roasterId}/coffee
+      - Coffee - /coffee/
       description: Add coffee to roaster
       operationId: postApiV1RoasterRoasteridCoffee
       parameters:
@@ -1056,12 +1148,88 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+  /api/v1/roaster/{roasterId}/coffee/{coffeeId}/image:
+    post:
+      tags:
+      - Coffee - /coffee/
+      description: Add roaster image
+      operationId: postApiV1RoasterRoasteridCoffeeCoffeeidImage
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: roasterId
+        in: path
+        description: Roaster uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: coffeeId
+        in: path
+        description: Coffee uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddCoffeeFile'
+        required: true
+      responses:
+        '201':
+          description: ''
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '422':
+          description: Input request was invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInput'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
   /api/v1/roaster/{roasterId}/coffee/{coffeeId}:
     get:
       tags:
-      - All
-      - Roaster - /roaster/
-      - Roaster coffee - /roaster/{roasterId}/coffee
+      - Coffee - /coffee/
       description: Get coffee
       operationId: getApiV1RoasterRoasteridCoffeeCoffeeid
       parameters:
@@ -1113,9 +1281,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     put:
       tags:
-      - All
-      - Roaster - /roaster/
-      - Roaster coffee - /roaster/{roasterId}/coffee
+      - Coffee - /coffee/
       description: Update coffee
       operationId: putApiV1RoasterRoasteridCoffeeCoffeeid
       parameters:
@@ -1198,9 +1364,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     delete:
       tags:
-      - All
-      - Roaster - /roaster/
-      - Roaster coffee - /roaster/{roasterId}/coffee
+      - Coffee - /coffee/
       description: Delete coffee
       operationId: deleteApiV1RoasterRoasteridCoffeeCoffeeid
       parameters:
@@ -1266,9 +1430,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
     patch:
       tags:
-      - All
-      - Roaster - /roaster/
-      - Roaster coffee - /roaster/{roasterId}/coffee
+      - Coffee - /coffee/
       description: Update coffee field
       operationId: patchApiV1RoasterRoasteridCoffeeCoffeeid
       parameters:
@@ -1349,10 +1511,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+  /api/v1/roaster/{roasterId}/coffee/{coffeeId}/images:
+    get:
+      tags:
+      - Coffee - /coffee/
+      description: Get coffee
+      operationId: getApiV1RoasterRoasteridCoffeeCoffeeidImages
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: roasterId
+        in: path
+        description: Roaster uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: coffeeId
+        in: path
+        description: Coffee uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
   /api/v1/coffee:
     get:
       tags:
-      - All
       - Coffee - /coffee/
       description: Get all coffees
       operationId: getApiV1Coffee
@@ -1366,35 +1582,32 @@ paths:
           type: string
       - name: limit
         in: query
-        description: How many results should be returned per page. Default 10
         required: false
         schema:
           type: integer
+          description: How many results should be returned per page. Default 10
           format: int32
           default: 10
       - name: offset
         in: query
-        description: How many results should be removed from start of list
         required: false
         schema:
           type: integer
+          description: How many results should be removed from start of list
           format: int32
           default: 0
       - name: kind
         in: query
-        description: What type of coffee
         required: false
         schema:
           $ref: '#/components/schemas/CoffeeKind'
       - name: created
         in: query
-        description: Sort by created field - default is DESC
         required: false
         schema:
           $ref: '#/components/schemas/DataOrdering'
       - name: updated
         in: query
-        description: Sor by updated field
         required: false
         schema:
           $ref: '#/components/schemas/DataOrdering'
@@ -1417,8 +1630,762 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+  /api/v1/image/{imageId}:
+    get:
+      tags:
+      - Image - /image/
+      description: Get image
+      operationId: getApiV1ImageImageid
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: Image uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: File bytes
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '301':
+          description: ''
+          headers:
+            Location:
+              description: Redirection to image in CDN
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+    put:
+      tags:
+      - Image - /image/
+      description: Replace image
+      operationId: putApiV1ImageImageid
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: Image uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReplaceFile'
+        required: true
+      responses:
+        '201':
+          description: ''
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '422':
+          description: Input request was invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInput'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+    delete:
+      tags:
+      - Image - /image/
+      description: Delete image
+      operationId: deleteApiV1ImageImageid
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: Image uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: ''
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/image/{imageId}/info:
+    get:
+      tags:
+      - Image - /image/
+      description: Get image metadata
+      operationId: getApiV1ImageImageidInfo
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: Image uuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfoResponse'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email:
+    get:
+      tags:
+      - Email - /email
+      description: Get emails
+      operationId: getApiV1Email
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: How many results should be returned per page. Default 10
+          format: int32
+          default: 10
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: How many results should be removed from start of list
+          format: int32
+          default: 0
+      - name: recipient
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/EmailStatus'
+      - name: contentType
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/EmailContentType'
+      - name: created
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/DataOrdering'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEmailsResponse'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email/template:
+    get:
+      tags:
+      - Email - /email
+      description: Get all email templates
+      operationId: getApiV1EmailTemplate
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailTemplateResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email/{emailId}:
+    get:
+      tags:
+      - Email - /email
+      description: Get email details
+      operationId: getApiV1EmailEmailid
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: emailId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email/template/{templateType}:
+    get:
+      tags:
+      - Email - /email
+      description: Get email template details
+      operationId: getApiV1EmailTemplateTemplatetype
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: templateType
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/EmailTemplateType'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTemplateResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+    patch:
+      tags:
+      - Email - /email
+      description: Update template
+      operationId: patchApiV1EmailTemplateTemplatetype
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: templateType
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/EmailTemplateType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchTemplateRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '422':
+          description: Input request was invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInput'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email/template/{templateType}/preview:
+    post:
+      tags:
+      - Email - /email
+      description: Preview template
+      operationId: postApiV1EmailTemplateTemplatetypePreview
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: templateType
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/EmailTemplateType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreviewTemplateRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreviewResult'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '422':
+          description: Input request was invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidInput'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1/email/{emailId}/send:
+    post:
+      tags:
+      - Email - /email
+      description: Trigger sending email
+      operationId: postApiV1EmailEmailidSend
+      parameters:
+      - name: X-Coffee-Request-ID
+        in: header
+        description: Id of this request. Use UUID - if not set, it will be generated
+          automatically.
+        required: false
+        schema:
+          type: string
+      - name: coffee_auth
+        in: cookie
+        description: Cookie with authentication JWT token
+        required: false
+        schema:
+          type: string
+      - name: X-Coffee-Auth
+        in: header
+        description: Header used as authentication header with JWT token
+        required: false
+        schema:
+          type: string
+      - name: emailId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Action succeed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '400':
+          description: Content of request was logically invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: User session expired or user is not allowed to this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
 components:
   schemas:
+    AddCoffeeFile:
+      required:
+      - image
+      - filename
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        filename:
+          type: string
+        category:
+          type: string
+    AddRoasterFile:
+      required:
+      - image
+      - filename
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        filename:
+          type: string
+        category:
+          type: string
     BadRequest:
       required:
       - error
@@ -1484,7 +2451,6 @@ components:
     CoffeeRequestEntity:
       required:
       - name
-      - grammage
       - kind
       - speciality
       type: object
@@ -1493,7 +2459,10 @@ components:
           type: string
           description: Name of coffee
         grammage:
-          $ref: '#/components/schemas/Grammage'
+          type: array
+          items:
+            $ref: '#/components/schemas/Grammage'
+          description: How big package of coffee
         origin:
           type: array
           items:
@@ -1538,7 +2507,6 @@ components:
       - id
       - roasterId
       - name
-      - grammage
       - kind
       - speciality
       - created
@@ -1557,7 +2525,10 @@ components:
           type: string
           description: Name of coffee
         grammage:
-          $ref: '#/components/schemas/Grammage'
+          type: array
+          items:
+            $ref: '#/components/schemas/Grammage'
+          description: How big package of coffee
         origin:
           type: array
           items:
@@ -1603,12 +2574,16 @@ components:
         updated:
           type: string
           description: When it was updated
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageResult'
+          description: List of related images
     CoffeeResultWithRoaster:
       required:
       - id
       - roaster
       - name
-      - grammage
       - kind
       - speciality
       - created
@@ -1625,7 +2600,10 @@ components:
           type: string
           description: Name of coffee
         grammage:
-          $ref: '#/components/schemas/Grammage'
+          type: array
+          items:
+            $ref: '#/components/schemas/Grammage'
+          description: How big package of coffee
         origin:
           type: array
           items:
@@ -1671,24 +2649,139 @@ components:
         updated:
           type: string
           description: When it was updated
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageResult'
+          description: List of related images
     DataOrdering:
       type: string
+      description: Sort by created field - default is DESC
       default: desc
       enum:
       - desc
       - asc
-    GetAllCoffeeParameters:
+    EmailContentType:
+      type: string
+      description: Filter by email content type
+      enum:
+      - TXT
+      - HTML
+    EmailResult:
       required:
-      - limit
-      - offset
+      - id
+      - recipient
+      - subject
+      - content
+      - contentType
+      - created
+      - nextTry
+      - tried
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          description: Email id
+          format: uuid
+        recipient:
+          type: string
+          description: Recipient to who email should be send
+        subject:
+          type: string
+          description: Subject of email
+        content:
+          type: string
+          description: Content of email
+        contentType:
+          $ref: '#/components/schemas/EmailContentType'
+        created:
+          type: string
+          description: When email was created
+        nextTry:
+          type: string
+          description: When email will be retired
+        lastTry:
+          type: string
+          description: When was last try
+        tried:
+          type: integer
+          description: How many tries was preformed
+          format: int32
+        status:
+          $ref: '#/components/schemas/EmailStatus'
+        send:
+          type: string
+          description: When email was send
+        messageId:
+          type: string
+          description: What was message send it
+        error:
+          type: string
+          description: Error in case email was not send properly
+    EmailStatus:
+      type: string
+      description: Filter by email status
+      enum:
+      - SEND
+      - FAILED_GENERATING_TEMPLATE
+      - FAILED_TO_SEND
+      - QUEUED
+    EmailTemplateResult:
+      required:
+      - templateType
+      - subjectTemplate
+      - contentTemplate
+      - contentType
+      - created
+      - updated
+      type: object
+      properties:
+        templateType:
+          $ref: '#/components/schemas/EmailTemplateType'
+        subjectTemplate:
+          type: string
+          description: What is email subject template
+        contentTemplate:
+          type: string
+          description: What is email content template
+        contentType:
+          $ref: '#/components/schemas/EmailContentType'
+        created:
+          type: string
+          description: When template was created
+        updated:
+          type: string
+          description: Last update time of template
+    EmailTemplateType:
+      type: string
+      description: Email template type
+      enum:
+      - REGISTRATION_TOKEN
+      - ACCOUNT_ALREADY_EXISTS
+      - RESET_PASSWORD_TOKEN
+    FailureResult:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/SimpleResultStatus'
+        message:
+          type: string
+    GetAllCoffeeParameters:
       type: object
       properties:
         limit:
           type: integer
+          description: How many results should be returned per page. Default 10
           format: int32
+          default: 10
         offset:
           type: integer
+          description: How many results should be removed from start of list
           format: int32
+          default: 0
         kind:
           $ref: '#/components/schemas/CoffeeKind'
         created:
@@ -1713,18 +2806,42 @@ components:
           description: Results in actual page
         parameters:
           $ref: '#/components/schemas/GetAllCoffeeParameters'
-    GetAllRoasterParameters:
-      required:
-      - limit
-      - offset
+    GetAllEmailsParameters:
       type: object
       properties:
         limit:
           type: integer
+          description: How many results should be returned per page. Default 10
           format: int32
+          default: 10
         offset:
           type: integer
+          description: How many results should be removed from start of list
           format: int32
+          default: 0
+        recipient:
+          type: string
+          description: Filter by recipient
+        status:
+          $ref: '#/components/schemas/EmailStatus'
+        contentType:
+          $ref: '#/components/schemas/EmailContentType'
+        created:
+          $ref: '#/components/schemas/DataOrdering'
+      description: Parameters used in query
+    GetAllRoasterParameters:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: How many results should be returned per page. Default 10
+          format: int32
+          default: 10
+        offset:
+          type: integer
+          description: How many results should be removed from start of list
+          format: int32
+          default: 0
         created:
           $ref: '#/components/schemas/DataOrdering'
         updated:
@@ -1747,6 +2864,23 @@ components:
           description: Results in actual page
         parameters:
           $ref: '#/components/schemas/GetAllRoasterParameters'
+    GetEmailsResponse:
+      required:
+      - count
+      - parameters
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count of all results
+          format: int64
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailResult'
+          description: Results in actual page
+        parameters:
+          $ref: '#/components/schemas/GetAllEmailsParameters'
     GetRoasterCoffeeParameters:
       required:
       - limit
@@ -1794,7 +2928,88 @@ components:
           format: int32
         unit:
           $ref: '#/components/schemas/UnitType'
-      description: How big package of coffee
+    ImageInfoResponse:
+      required:
+      - filename
+      - owner
+      - ownerId
+      - metadata
+      - created
+      - updated
+      type: object
+      properties:
+        filename:
+          type: string
+        storePath:
+          type: string
+        storeType:
+          type: string
+        owner:
+          type: string
+        ownerId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ImageMetadata'
+        created:
+          type: string
+        updated:
+          type: string
+    ImageMetadata:
+      required:
+      - sizeInBytes
+      - width
+      - height
+      - hash
+      - format
+      type: object
+      properties:
+        sizeInBytes:
+          type: integer
+          format: int32
+        width:
+          type: integer
+          format: int32
+        height:
+          type: integer
+          format: int32
+        hash:
+          type: string
+        format:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTag'
+    ImageResult:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        category:
+          type: string
+    ImageTag:
+      required:
+      - name
+      - type
+      - rawValue
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: integer
+          format: int32
+        rawValue:
+          type: string
+        value:
+          type: string
     InvalidField:
       required:
       - name
@@ -1866,7 +3081,10 @@ components:
           type: string
           description: Name of coffee
         grammage:
-          $ref: '#/components/schemas/Grammage'
+          type: array
+          items:
+            $ref: '#/components/schemas/Grammage'
+          description: How big package of coffee
         origin:
           type: array
           items:
@@ -1912,7 +3130,7 @@ components:
         name:
           type: string
           description: Label name of roaster
-        fullName:
+        fullAddress:
           type: string
           description: Full name of roaster
         country:
@@ -1921,6 +3139,37 @@ components:
         city:
           type: string
           description: In what city roaster originate
+    PatchTemplateRequest:
+      type: object
+      properties:
+        subjectTemplate:
+          type: string
+        contentTemplate:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/EmailContentType'
+    PreviewResult:
+      required:
+      - subject
+      - content
+      type: object
+      properties:
+        subject:
+          type: string
+        content:
+          type: string
+    PreviewTemplateRequest:
+      required:
+      - subjectTemplate
+      - contentTemplate
+      type: object
+      properties:
+        subjectTemplate:
+          type: string
+        contentTemplate:
+          type: string
+        contentVariables:
+          $ref: '#/components/schemas/Map_String'
     Processing:
       type: string
       enum:
@@ -1952,6 +3201,19 @@ components:
         login:
           type: string
           description: Login used during registration
+    ReplaceFile:
+      required:
+      - image
+      - filename
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        filename:
+          type: string
+        category:
+          type: string
     ResetPasswordInput:
       required:
       - login
@@ -1962,13 +3224,13 @@ components:
     RoasterRequestEntity:
       required:
       - name
-      - fullName
+      - fullAddress
       type: object
       properties:
         name:
           type: string
           description: Label name of roaster
-        fullName:
+        fullAddress:
           type: string
           description: Full name of roaster
         country:
@@ -1981,7 +3243,7 @@ components:
       required:
       - id
       - name
-      - fullName
+      - fullAddress
       - created
       - updated
       type: object
@@ -1993,9 +3255,9 @@ components:
         name:
           type: string
           description: Label name of roaster
-        fullName:
+        fullAddress:
           type: string
-          description: Full name of roaster
+          description: Full address of roaster
         country:
           type: string
           description: From what country roaster origin
@@ -2008,6 +3270,11 @@ components:
         updated:
           type: string
           description: When was updated
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageResult'
+          description: List of related images
     ServerError:
       required:
       - message

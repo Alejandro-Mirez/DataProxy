@@ -12,14 +12,16 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="RegistrationResendRequest")
+
 
 @attr.s(auto_attribs=True)
 class RegistrationResendRequest:
-    """
-    Attributes:
-        login (str): Login used during registration
-    """
+    """ 
+        Attributes:
+            login (str): Login used during registration
+     """
 
     login: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)

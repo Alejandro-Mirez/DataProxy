@@ -2,8 +2,8 @@ from enum import Enum
 
 class CoffeeKind(str, Enum):
     BEANS = "beans"
-    GROUND = "ground"
     CAPSULES = "capsules"
+    GROUND = "ground"
     INSTANT = "instant"
 
     def __str__(self) -> str:

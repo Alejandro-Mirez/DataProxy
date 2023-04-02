@@ -12,16 +12,18 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="ChangePasswordRequest")
+
 
 @attr.s(auto_attribs=True)
 class ChangePasswordRequest:
-    """
-    Attributes:
-        token (str): One time code generated during resetting password
-        password (str): Password at lest 8 symbols long with big and small letters, number and symbols
-        repeat_password (str): Repeated password - needs to be same as original password
-    """
+    """ 
+        Attributes:
+            token (str): One time code generated during resetting password
+            password (str): Password at lest 8 symbols long with big and small letters, number and symbols
+            repeat_password (str): Repeated password - needs to be same as original password
+     """
 
     token: str
     password: str

@@ -13,16 +13,17 @@ from ..models.unit_type import UnitType
 
 
 
+
 T = TypeVar("T", bound="Grammage")
+
 
 @attr.s(auto_attribs=True)
 class Grammage:
-    """How big package of coffee
-
-    Attributes:
-        value (int):
-        unit (UnitType):
-    """
+    """ 
+        Attributes:
+            value (int):
+            unit (UnitType):
+     """
 
     value: int
     unit: UnitType

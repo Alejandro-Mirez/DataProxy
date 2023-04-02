@@ -14,20 +14,22 @@ from typing import Union
 
 
 
+
 T = TypeVar("T", bound="RoasterRequestEntity")
+
 
 @attr.s(auto_attribs=True)
 class RoasterRequestEntity:
-    """
-    Attributes:
-        name (str): Label name of roaster
-        full_name (str): Full name of roaster
-        country (Union[Unset, str]): From what country roaster origin
-        city (Union[Unset, str]): In what city roaster originate
-    """
+    """ 
+        Attributes:
+            name (str): Label name of roaster
+            full_address (str): Full name of roaster
+            country (Union[Unset, str]): From what country roaster origin
+            city (Union[Unset, str]): In what city roaster originate
+     """
 
     name: str
-    full_name: str
+    full_address: str
     country: Union[Unset, str] = UNSET
     city: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -35,7 +37,7 @@ class RoasterRequestEntity:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
-        full_name = self.full_name
+        full_address = self.full_address
         country = self.country
         city = self.city
 
@@ -43,7 +45,7 @@ class RoasterRequestEntity:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "name": name,
-            "fullName": full_name,
+            "fullAddress": full_address,
         })
         if country is not UNSET:
             field_dict["country"] = country
@@ -59,7 +61,7 @@ class RoasterRequestEntity:
         d = src_dict.copy()
         name = d.pop("name")
 
-        full_name = d.pop("fullName")
+        full_address = d.pop("fullAddress")
 
         country = d.pop("country", UNSET)
 
@@ -67,7 +69,7 @@ class RoasterRequestEntity:
 
         roaster_request_entity = cls(
             name=name,
-            full_name=full_name,
+            full_address=full_address,
             country=country,
             city=city,
         )
