@@ -12,15 +12,17 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="BadRequest")
+
 
 @attr.s(auto_attribs=True)
 class BadRequest:
-    """
-    Attributes:
-        error (str):
-        message (str):
-    """
+    """ 
+        Attributes:
+            error (str):
+            message (str):
+     """
 
     error: str
     message: str

@@ -12,15 +12,17 @@ from ..types import UNSET, Unset
 
 
 
+
 T = TypeVar("T", bound="LoginRequest")
+
 
 @attr.s(auto_attribs=True)
 class LoginRequest:
-    """
-    Attributes:
-        login (str): Login used during registration
-        password (str): Password used during registration
-    """
+    """ 
+        Attributes:
+            login (str): Login used during registration
+            password (str): Password used during registration
+     """
 
     login: str
     password: str

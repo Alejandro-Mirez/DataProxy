@@ -14,15 +14,17 @@ from typing import Union
 
 
 
+
 T = TypeVar("T", bound="ServerError")
+
 
 @attr.s(auto_attribs=True)
 class ServerError:
-    """
-    Attributes:
-        message (str):
-        error (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            message (str):
+            error (Union[Unset, str]):
+     """
 
     message: str
     error: Union[Unset, str] = UNSET

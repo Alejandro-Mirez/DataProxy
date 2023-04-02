@@ -14,15 +14,17 @@ from typing import Union
 
 
 
+
 T = TypeVar("T", bound="Unauthorized")
+
 
 @attr.s(auto_attribs=True)
 class Unauthorized:
-    """
-    Attributes:
-        message (str):
-        resource (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            message (str):
+            resource (Union[Unset, str]):
+     """
 
     message: str
     resource: Union[Unset, str] = UNSET

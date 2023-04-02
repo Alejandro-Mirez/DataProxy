@@ -8,4 +8,4 @@ Install:
 Run:
 
 * `pipenv sync`
-* `uvicorn main:app --reload`
+* `uvicorn main:app --reload --app-dir app --reload-dir app`

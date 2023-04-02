@@ -7,8 +7,8 @@ import attr
 
 from ..types import UNSET, Unset
 
-from typing import Dict
 from typing import cast
+from typing import Dict
 
 if TYPE_CHECKING:
   from ..models.map_string import MapString
@@ -16,17 +16,19 @@ if TYPE_CHECKING:
 
 
 
+
 T = TypeVar("T", bound="InvalidField")
+
 
 @attr.s(auto_attribs=True)
 class InvalidField:
-    """
-    Attributes:
-        name (str): Name of the field that is invalid
-        error (str): Description of error
-        error_code (str): Text representation of error code
-        meta (MapString): Meta information about validation result
-    """
+    """ 
+        Attributes:
+            name (str): Name of the field that is invalid
+            error (str): Description of error
+            error_code (str): Text representation of error code
+            meta (MapString): Meta information about validation result
+     """
 
     name: str
     error: str

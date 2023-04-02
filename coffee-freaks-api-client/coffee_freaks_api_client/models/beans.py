@@ -7,9 +7,10 @@ import attr
 
 from ..types import UNSET, Unset
 
-from ..models.beans_kind import BeansKind
 from ..types import UNSET, Unset
+from ..models.beans_kind import BeansKind
 from typing import Union
+
 
 
 
@@ -17,14 +18,15 @@ from typing import Union
 
 T = TypeVar("T", bound="Beans")
 
+
 @attr.s(auto_attribs=True)
 class Beans:
-    """
-    Attributes:
-        kind (BeansKind): Name of coffee
-        ratio (float): Ratio. 1 is 100%, 0.5 is 50% etc.
-        varietal (Union[Unset, str]): Bourbon, Caturra etc.
-    """
+    """ 
+        Attributes:
+            kind (BeansKind): Name of coffee
+            ratio (float): Ratio. 1 is 100%, 0.5 is 50% etc.
+            varietal (Union[Unset, str]): Bourbon, Caturra etc.
+     """
 
     kind: BeansKind
     ratio: float
